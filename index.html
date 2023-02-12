@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Pics Generator</title>
+    <style>
+        body {
+            background: linear-gradient(230deg, #1207da, #0f05d3, #0a0134);
+
+        }
+
+        .container {
+            border: 1px solid rgb(0, 255, 102);
+            width: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: .2rem;
+            background: linear-gradient(150deg, #0c0390, #040a47, #1005af);
+            color: white;
+        }
+
+        button {
+            border: none;
+            outline: none;
+            padding: .5rem 2rem;
+            margin-bottom: .5rem;
+            background-color: rgb(49, 255, 121);
+            border-radius: .2rem;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: grey;
+        }
+
+        img {
+            width: 10rem;
+            height: 10rem;
+            border-radius: 100%;
+            border: 6px solid rgb(19, 255, 149);
+        }
+
+        .anime-container {
+            display: none;
+        }
+
+        .anime-container h3 {
+            text-align: center;
+        }
+
+        svg {
+            font-size: 1rem;
+            width: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3>Anime Pics Generatos</h3>
+        <button class="btn" id="btn">Get Anime</button>
+        <div class="anime-container">
+            <img class="anime-img" src="https://i.pinimg.com/originals/5e/30/4d/5e304d0f0f5bdb17dbb17103169a8d03.jpg"
+                alt="">
+            <h3 class="anime-name">Anime Name</h3>
+        </div>
+    </div>
+</body>
+<script>
+    const Btn = document.getElementById("btn");
+    const animeContainer = document.querySelector(".anime-container");
+    const getImage = document.querySelector(".anime-img");
+    const animeName = document.querySelector(".anime-name");
+
+    Btn.addEventListener("click", async function () {
+        try {
+            Btn.disabled = true; // to load image
+            Btn.innerText = "Loading....";
+            animeName.innerText = "Updating....";
+            getImage.src = "loading.svg";
+            animeContainer.style.display = "block";
+
+            const apiUrl = "https://api.catboys.com/img";
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            console.log(data)
+
+            Btn.disabled = false;
+            Btn.innerText = "Get Anime"
+
+            getImage.src = data.url;
+            animeName.innerHTML = `${data.artist}`;
+        }
+        catch (error) {
+            animeName.innerHTML = "An error Occur, Please try again";
+
+        }
+    })
+
+
+</script>
+
+</html>
